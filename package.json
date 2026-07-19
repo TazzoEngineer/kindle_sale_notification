@@ -1,0 +1,23 @@
+{
+  "name": "kindle_sale_notification",
+  "version": "0.1.0",
+  "description": "Kindle sample-downloaded books sale watcher (PoC)",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "poc:login": "node poc/2.1_login.js",
+    "poc:evidence": "node poc/2.1_evidence.js",
+    "poc:inspect": "node poc/2.3_inspect.js",
+    "poc:samples": "node poc/2.3_samples.js",
+    "poc:all-samples": "node poc/2.3_all_samples.js",
+    "poc:price-inspect": "node poc/2.4_price_inspect.js",
+    "poc:price": "node poc/2.4_price.js",
+    "poc:batch": "node poc/2.4_batch.js",
+    "poc:search": "node poc/2.4_search_fallback.js",
+    "poc:detect": "node poc/2.5_detect.js",
+    "poc:report": "node poc/2.6_report.js"
+  },
+  "dependencies": {
+    "puppeteer": "^24.0.0"
+  }
+}

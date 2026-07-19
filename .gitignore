@@ -1,0 +1,13 @@
+# dependencies
+node_modules/
+
+# Puppeteer / Chrome user data (never commit login sessions)
+.chrome-profile/
+*.session
+
+# logs & captures
+*.log
+poc/out/
+
+# OS
+.DS_Store
