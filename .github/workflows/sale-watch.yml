@@ -11,6 +11,11 @@ on:
     # 1時間ごと（GitHub の cron は数分〜十数分遅れることがある）
     - cron: '0 * * * *'
   workflow_dispatch:
+    inputs:
+      max_age_hours:
+        description: '対象期間（時間）。動作確認で広げたいときに指定する'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -32,7 +37,14 @@ jobs:
 
       - name: フィードを確認
         id: feed
-        run: node scripts/check_feed.js
+        env:
+          MAX_AGE: ${{ inputs.max_age_hours }}
+        run: |
+          if [ -n "$MAX_AGE" ]; then
+            node scripts/check_feed.js "--max-age=$MAX_AGE"
+          else
+            node scripts/check_feed.js
+          fi
 
       - name: 検知を Issue で知らせる
         if: steps.feed.outputs.count != '0'
