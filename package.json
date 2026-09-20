@@ -20,7 +20,11 @@
     "poc:batch": "node poc/2.4_batch.js",
     "poc:search": "node poc/2.4_search_fallback.js",
     "poc:detect": "node poc/2.5_detect.js",
-    "poc:report": "node poc/2.6_report.js"
+    "poc:report": "node poc/2.6_report.js",
+    "feed": "node scripts/check_feed.js"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "dependencies": {
     "puppeteer": "^24.0.0"
