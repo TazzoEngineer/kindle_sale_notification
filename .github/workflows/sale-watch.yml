@@ -1,0 +1,54 @@
+# Kindle のセール情報フィードを監視し、ウォッチ対象のキーワードに該当する
+# 新着記事が出たときだけ Issue を立てて知らせる。
+#
+# 価格チェック本体（Puppeteer + Amazon ログイン）はここでは動かさない。
+# Amazon のログインセッションが必要で、データセンター IP からは通らないため、
+# 検知を受け取ったら手元の Mac で `./run.sh all` を実行する。
+name: Kindle セール監視
+
+on:
+  schedule:
+    # 1時間ごと（GitHub の cron は数分〜十数分遅れることがある）
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: sale-watch
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: フィードを確認
+        id: feed
+        run: node scripts/check_feed.js
+
+      - name: 検知を Issue で知らせる
+        if: steps.feed.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title "${{ steps.feed.outputs.title }}" \
+            --body-file poc/out/feed_summary.md \
+            --assignee "${{ github.repository_owner }}"
+
+      - name: 既読状態をコミット
+        if: steps.feed.outputs.count != '0'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/feed_state.json
+          git diff --staged --quiet || git commit -m "chore: フィードの既読状態を更新 [skip ci]"
+          git push

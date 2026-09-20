@@ -1,0 +1,28 @@
+{
+  "_comment": "監視するフィードと発火キーワード。自分の読書傾向に合わせて書き換える。",
+  "feeds": [
+    {
+      "name": "きんどう",
+      "url": "https://kindou.info/feed"
+    },
+    {
+      "name": "Googleニュース",
+      "url": "https://news.google.com/rss/search?q=Kindle%20%E3%82%BB%E3%83%BC%E3%83%AB%20(%E6%96%87%E5%BA%AB%20OR%20%E6%96%B0%E6%9B%B8%20OR%20%E5%AD%A6%E8%A1%93)&hl=ja&gl=JP&ceid=JP:ja"
+    },
+    {
+      "name": "はてなブックマーク",
+      "url": "https://b.hatena.ne.jp/search/text?q=Kindle%20%E3%82%BB%E3%83%BC%E3%83%AB%20%E6%96%87%E5%BA%AB&mode=rss&sort=recent"
+    }
+  ],
+  "keywords": [
+    "文庫", "新書", "選書", "学術文庫", "ブルーバックス",
+    "岩波", "ちくま", "みすず", "早川", "ハヤカワ", "河出", "文春", "新潮", "光文社古典",
+    "均一", "半額", "全作品"
+  ],
+  "excludeKeywords": [
+    "ラノベ", "ライトノベル", "なろう", "異世界", "コミック", "マンガ", "まんが",
+    "ノベライズ", "小説版", "ダンガン文庫"
+  ],
+  "maxAgeHours": 48,
+  "maxStateEntries": 300
+}
