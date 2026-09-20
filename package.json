@@ -2,6 +2,11 @@
   "name": "kindle_sale_notification",
   "version": "0.1.0",
   "description": "Kindle sample-downloaded books sale watcher (PoC)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TazzoEngineer/kindle_sale_notification.git"
+  },
   "private": true,
   "type": "commonjs",
   "scripts": {
