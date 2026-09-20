@@ -286,3 +286,22 @@ Node.js + Puppeteer + 専用プロファイルで、
   「紙の本の価格：」ラベル `apex-basisprice-label` が存在する時のみ紙価格を採用するよう修正。
   修正後 B0GX2XQNGK は紙価格なし→ポイント還元率5%、B0CYZ95626 は紙¥572/51% のまま。
   ※ 紙 < Kindle（割引率が負）は理論上あり得るが稀。極端な負値は抽出ミスの疑いが濃い。
+
+### 定期実行（launchd）: ✅
+
+- **課題**: PoC は `run.sh` を人が叩いたときにしか動かず、「セールになったら教えてくれる」
+  という当初の狙いを満たしていなかった（通知自体は `2.5_detect.js` で実装済みだが、
+  起動する人がいなかった）。
+- **実装**: macOS の LaunchAgent を `run.sh` から生成・登録する。
+  - `./run.sh install [HH:MM]`（既定 09:00）→ `~/Library/LaunchAgents/local.kindle-sale-notification.plist`
+    を生成し `launchctl bootstrap gui/$UID` で登録。`uninstall` / `schedule`（状態表示）も用意。
+  - ジョブの本体は `./run.sh watch` = サンプル一覧の更新 → 全件の価格取得 → 差分検知・通知 → 表の出力。
+  - ログは `poc/out/watch.log`（1MB 超で 1 世代退避）。
+- **ハマりどころ**: **launchd の PATH は `/usr/bin:/bin:/usr/sbin:/sbin` しかない**ため、
+  nodenv/homebrew 配下の `node` / `npm` が見つからずジョブが即死する。
+  install 時に `command -v node/npm/nodenv` から解決したディレクトリを
+  plist の `EnvironmentVariables > PATH` に焼き込むことで回避した。
+- **セッション切れの扱い**: ライブラリ取得に失敗、またはサンプル 0 件なら
+  「再ログインが必要」という macOS 通知を出して中断する（無言で失敗させない）。
+- **制約**: Amazon がヘッドレスを弾くため実行中は Chrome のウィンドウが開く。
+  全件（約 150 冊）で 10 分前後。Mac がスリープしていれば復帰後に launchd が実行する。
