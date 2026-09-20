@@ -20,7 +20,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 REPO_DIR="$(pwd -P)"
-OUT_DIR="$REPO_DIR/poc/out"
+OUT_DIR="$REPO_DIR/out"
 SAMPLES_JSON="$OUT_DIR/all_samples.json"
 
 # all_samples.json の件数（無ければ 0）
@@ -29,13 +29,13 @@ sample_count() {
     "$SAMPLES_JSON" 2>/dev/null || echo 0
 }
 
-run_login()   { npm run poc:login; }
-run_samples() { npm run poc:all-samples; }
-run_batch()   { npm run poc:batch -- --limit="${1:-$(sample_count)}"; }
-run_detect()  { npm run poc:detect; }
-run_report()  { npm run poc:report; }
-run_price()   { npm run poc:price -- "$1"; }
-run_feed()    { node scripts/check_feed.js "$@"; }
+run_login()   { npm run login; }
+run_samples() { npm run samples; }
+run_batch()   { npm run prices -- --limit="${1:-$(sample_count)}"; }
+run_detect()  { npm run detect; }
+run_report()  { npm run report; }
+run_price()   { npm run price -- "$1"; }
+run_feed()    { node src/feed/check_feed.js "$@"; }
 
 run_all() {
   echo "▶ 1/4 サンプル一覧を更新..."
@@ -52,7 +52,7 @@ run_all() {
   run_detect
   echo "▶ 4/4 表を出力..."
   run_report
-  echo "✅ 完了: poc/out/report.md / report.csv"
+  echo "✅ 完了: out/report.md / report.csv"
 }
 
 menu() {

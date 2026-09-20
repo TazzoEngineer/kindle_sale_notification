@@ -11,10 +11,10 @@
 const path = require('path');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
-const { fetchPrice, resolveByTitle, delay } = require('./lib/amazon');
+const { fetchPrice, resolveByTitle, delay } = require('../lib/amazon');
 
-const PROFILE_DIR = path.join(__dirname, '..', '.chrome-profile');
-const OUT_DIR = path.join(__dirname, 'out');
+const PROFILE_DIR = path.join(__dirname, '..', '..', '.chrome-profile');
+const OUT_DIR = path.join(__dirname, '..', '..', 'out');
 const SAMPLES_FILE = path.join(OUT_DIR, 'all_samples.json');
 
 function argVal(name, def) {
@@ -133,7 +133,7 @@ const NO_FALLBACK = process.argv.includes('--no-fallback');
       const paper = s.paperPrice ? `紙￥${s.paperPrice} ` : '';
       console.log(`  🔥 [${s.asin}] 実質${rate}  ${paper}Kindle￥${s.kindlePrice} / ${s.points ?? '-'}pt  ${s.title}`);
     }
-    console.log('[保存] poc/out/prices.json / poc/out/prices_onsale.json');
+    console.log('[保存] out/prices.json / out/prices_onsale.json');
   } finally {
     await browser.close();
   }

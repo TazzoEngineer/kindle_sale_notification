@@ -13,16 +13,16 @@
  *   node scripts/check_feed.js --dry      # state を更新しない（確認用）
  *
  * 出力:
- *   標準出力にサマリ、poc/out/feed_matched.json に検知内容。
+ *   標準出力にサマリ、out/feed_matched.json に検知内容。
  *   GITHUB_OUTPUT があれば count / title を書き出す（Actions 用）。
  */
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = path.join(__dirname, '..', '..');
 const CONFIG_FILE = path.join(ROOT, 'feed.config.json');
 const STATE_FILE = path.join(ROOT, '.github', 'feed_state.json');
-const OUT_DIR = path.join(ROOT, 'poc', 'out');
+const OUT_DIR = path.join(ROOT, 'out');
 const MATCHED_FILE = path.join(OUT_DIR, 'feed_matched.json');
 const SUMMARY_FILE = path.join(OUT_DIR, 'feed_summary.md');
 const DRY = process.argv.includes('--dry');

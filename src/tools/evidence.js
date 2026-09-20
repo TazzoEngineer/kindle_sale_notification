@@ -9,8 +9,8 @@ const path = require('path');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 
-const PROFILE_DIR = path.join(__dirname, '..', '.chrome-profile');
-const OUT_DIR = path.join(__dirname, 'out');
+const PROFILE_DIR = path.join(__dirname, '..', '..', '.chrome-profile');
+const OUT_DIR = path.join(__dirname, '..', '..', 'out');
 const CONTENT_URL =
   'https://www.amazon.co.jp/hz/mycd/digital-console/contentlist/booksAll/dateDsc/';
 

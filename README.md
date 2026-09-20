@@ -33,7 +33,7 @@ $ ./run.sh all
   🔔 [B09HQJPY27] Kindle￥880 440pt 実質54%  極夜行 (文春文庫)
       理由: 新規セール / 値下がり ￥968→￥880
 ▶ 4/4 表を出力...
-✅ 完了: poc/out/report.md / report.csv
+✅ 完了: out/report.md / report.csv
 ```
 
 `report.md` は割引率の降順で並ぶ:
@@ -51,7 +51,7 @@ Kindle のセールは **値引きより「ポイント高還元」で行われ�
 
 ```
 実質割引率 = (紙の本の価格 − Kindle価格 + 獲得ポイント) / 紙の本の価格
-セール     = 実質割引率 >= 20%          # poc/lib/parsePrice.js の SALE_THRESHOLD
+セール     = 実質割引率 >= 20%          # src/lib/parsePrice.js の SALE_THRESHOLD
 ```
 
 紙版が存在しない本は基準価格が無いので、ポイント還元率（ポイント / Kindle価格）で代替する。
@@ -105,7 +105,7 @@ npm install
 弾くため避けられない）。セール検知の通知を受けたときに回す想定。
 
 個別の npm スクリプトは `package.json` を参照。
-`npm run poc:detect -- --dry` は通知も履歴更新もせず結果だけ表示する（状態を変えない確認用）。
+`npm run detect -- --dry` は通知も履歴更新もせず結果だけ表示する（状態を変えない確認用）。
 
 ## セール検知（GitHub Actions）
 
@@ -204,24 +204,35 @@ Watch → Custom → **Issues** にチェックすれば、所有者でなくて
 
 ## 構成
 
-| ファイル | 役割 |
-| --- | --- |
-| `run.sh` | すべての入口。メニューと各サブコマンド |
-| `poc/2.1_login.js` | ログイン（専用プロファイル + 手動 2FA） |
-| `poc/2.3_all_samples.js` | ライブラリを全ページ巡回してサンプル書籍を収集 |
-| `poc/2.4_batch.js` | 各書籍の価格・ポイント・紙価格を取得（404 は検索でフォールバック） |
-| `poc/2.5_detect.js` | 前回スナップショットとの差分検知 → macOS 通知 |
-| `poc/2.6_report.js` | 割引率順の表を Markdown / CSV で出力 |
-| `poc/lib/amazon.js` | 商品ページ / Kindle 検索の共通操作 |
-| `poc/lib/parsePrice.js` | 価格・ポイント抽出とセール判定 |
-| `scripts/check_feed.js` | セール情報フィードの取得・キーワード判定・既読管理 |
-| `feed.config.json` | 監視するフィードと発火キーワードの設定 |
-| `.github/workflows/sale-watch.yml` | 1 時間ごとにフィードを確認し、該当があれば Issue を立てる |
-| `discussion.md` | 設計の検討と作業の全記録（DOM 構造・ハマりどころ） |
+```
+run.sh                  すべての入口。メニューと各サブコマンド
+src/
+  steps/                通常フローの各段階（run.sh から順に呼ばれる）
+    login.js            ログイン（専用プロファイル + 手動 2FA）
+    samples.js          ライブラリを全ページ巡回してサンプル書籍を収集
+    prices.js           各書籍の価格・ポイント・紙価格を取得（404 は検索でフォールバック）
+    price.js            1 冊だけ価格を確認
+    detect.js           前回スナップショットとの差分検知 → macOS 通知
+    report.js           割引率順の表を Markdown / CSV で出力
+  feed/
+    check_feed.js       セール情報フィードの取得・キーワード判定・既読管理
+  lib/                  共通モジュール
+    amazon.js           商品ページ / Kindle 検索の共通操作
+    parsePrice.js       価格・ポイント抽出とセール判定
+  tools/                DOM 構造の調査用（通常フローでは使わない）
+    inspect_library.js  ライブラリ一覧の DOM ダンプ
+    inspect_price.js    商品ページの価格まわりの DOM ダンプ
+    search_fallback.js  タイトル検索での ASIN 解決を単体で試す
+    evidence.js         ログイン済みであることのスクリーンショット取得
+    samples_page1.js    1 ページ目だけのサンプル抽出（samples.js の原型）
+out/                    生成物（gitignore）
+feed.config.json        監視するフィードと発火キーワードの設定
+discussion.md           設計の検討と作業の全記録（DOM 構造・ハマりどころ）
+.github/workflows/sale-watch.yml
+                        1 時間ごとにフィードを確認し、該当があれば Issue を立てる
+```
 
-`poc/2.1_evidence.js` / `2.3_inspect.js` / `2.4_price_inspect.js` は DOM 構造の調査用。
-
-生成物はすべて `poc/out/`（gitignore 済み）に出る。
+生成物はすべて `out/`（gitignore 済み）に出る。
 
 | ファイル | 内容 |
 | --- | --- |

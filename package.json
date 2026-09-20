@@ -10,18 +10,18 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "poc:login": "node poc/2.1_login.js",
-    "poc:evidence": "node poc/2.1_evidence.js",
-    "poc:inspect": "node poc/2.3_inspect.js",
-    "poc:samples": "node poc/2.3_samples.js",
-    "poc:all-samples": "node poc/2.3_all_samples.js",
-    "poc:price-inspect": "node poc/2.4_price_inspect.js",
-    "poc:price": "node poc/2.4_price.js",
-    "poc:batch": "node poc/2.4_batch.js",
-    "poc:search": "node poc/2.4_search_fallback.js",
-    "poc:detect": "node poc/2.5_detect.js",
-    "poc:report": "node poc/2.6_report.js",
-    "feed": "node scripts/check_feed.js"
+    "login": "node src/steps/login.js",
+    "samples": "node src/steps/samples.js",
+    "prices": "node src/steps/prices.js",
+    "price": "node src/steps/price.js",
+    "detect": "node src/steps/detect.js",
+    "report": "node src/steps/report.js",
+    "feed": "node src/feed/check_feed.js",
+    "tool:evidence": "node src/tools/evidence.js",
+    "tool:inspect-library": "node src/tools/inspect_library.js",
+    "tool:inspect-price": "node src/tools/inspect_price.js",
+    "tool:search": "node src/tools/search_fallback.js",
+    "tool:samples-page1": "node src/tools/samples_page1.js"
   },
   "engines": {
     "node": ">=18"

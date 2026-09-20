@@ -13,8 +13,8 @@ const path = require('path');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 
-const PROFILE_DIR = path.join(__dirname, '..', '.chrome-profile');
-const OUT_DIR = path.join(__dirname, 'out');
+const PROFILE_DIR = path.join(__dirname, '..', '..', '.chrome-profile');
+const OUT_DIR = path.join(__dirname, '..', '..', 'out');
 const CONTENT_URL =
   'https://www.amazon.co.jp/hz/mycd/digital-console/contentlist/booksAll/dateDsc/';
 
@@ -136,8 +136,8 @@ async function firstAsin(page) {
       console.log(`  - [${b.asin}] ${b.title}  (${b.acquired})`);
     }
     console.log('========================================');
-    console.log('[保存] poc/out/all_books.json');
-    console.log('[保存] poc/out/all_samples.json');
+    console.log('[保存] out/all_books.json');
+    console.log('[保存] out/all_samples.json');
   } finally {
     await browser.close();
   }

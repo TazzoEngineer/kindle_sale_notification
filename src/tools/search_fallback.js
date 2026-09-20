@@ -15,10 +15,10 @@
 const path = require('path');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
-const { fetchPrice, searchKindle } = require('./lib/amazon');
+const { fetchPrice, searchKindle } = require('../lib/amazon');
 
-const PROFILE_DIR = path.join(__dirname, '..', '.chrome-profile');
-const OUT_DIR = path.join(__dirname, 'out');
+const PROFILE_DIR = path.join(__dirname, '..', '..', '.chrome-profile');
+const OUT_DIR = path.join(__dirname, '..', '..', 'out');
 const QUERY = process.argv.slice(2).join(' ') || 'ハンチバック';
 
 (async () => {
@@ -65,7 +65,7 @@ const QUERY = process.argv.slice(2).join(' ') || 'ハンチバック';
     console.log('[還元ポイント]', p.points != null ? `${p.points}pt (${Math.round((p.pointRate ?? 0) * 100)}%)` : '(なし)');
     console.log('[読み放題]    ', p.isKindleUnlimited ? '対象' : '対象外');
     console.log('[セール判定]  ', p.onSale ? '🔥 セール中' : '通常価格');
-    console.log(`[保存] poc/out/search_${top.asin}.json`);
+    console.log(`[保存] out/search_${top.asin}.json`);
   } finally {
     await browser.close();
   }

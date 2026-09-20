@@ -41,9 +41,9 @@ jobs:
           MAX_AGE: ${{ inputs.max_age_hours }}
         run: |
           if [ -n "$MAX_AGE" ]; then
-            node scripts/check_feed.js "--max-age=$MAX_AGE"
+            node src/feed/check_feed.js "--max-age=$MAX_AGE"
           else
-            node scripts/check_feed.js
+            node src/feed/check_feed.js
           fi
 
       - name: 検知を Issue で知らせる
@@ -53,7 +53,7 @@ jobs:
         run: |
           gh issue create \
             --title "${{ steps.feed.outputs.title }}" \
-            --body-file poc/out/feed_summary.md \
+            --body-file out/feed_summary.md \
             --assignee "${{ github.repository_owner }}"
 
       - name: 既読状態をコミット

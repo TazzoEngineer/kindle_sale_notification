@@ -10,8 +10,8 @@ const path = require('path');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
 
-const PROFILE_DIR = path.join(__dirname, '..', '.chrome-profile');
-const OUT_DIR = path.join(__dirname, 'out');
+const PROFILE_DIR = path.join(__dirname, '..', '..', '.chrome-profile');
+const OUT_DIR = path.join(__dirname, '..', '..', 'out');
 const ASIN = process.argv[2] || 'B0GX2XQNGK';
 const URL = `https://www.amazon.co.jp/dp/${ASIN}`;
 
@@ -89,8 +89,8 @@ function delay(ms) {
     console.log('---- ポイント/pt を含む要素 ----');
     console.log(JSON.stringify(report.points, null, 2));
     console.log('========================================');
-    console.log(`[保存] poc/out/product_${ASIN}.html`);
-    console.log(`[保存] poc/out/price_inspect_${ASIN}.json`);
+    console.log(`[保存] out/product_${ASIN}.html`);
+    console.log(`[保存] out/price_inspect_${ASIN}.json`);
   } finally {
     await browser.close();
   }

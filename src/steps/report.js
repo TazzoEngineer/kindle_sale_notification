@@ -10,9 +10,9 @@
  */
 const path = require('path');
 const fs = require('fs');
-const { SALE_THRESHOLD } = require('./lib/parsePrice');
+const { SALE_THRESHOLD } = require('../lib/parsePrice');
 
-const OUT_DIR = path.join(__dirname, 'out');
+const OUT_DIR = path.join(__dirname, '..', '..', 'out');
 const PRICES_FILE = path.join(OUT_DIR, 'prices.json');
 const SALE_ONLY = process.argv.includes('--sale');
 
@@ -72,5 +72,5 @@ const pct = (r) => (r != null ? `${Math.round(r * 100)}%` : '-');
   console.log(md);
   console.log('\n========================================');
   console.log(`[出力] ${list.length} 件${SALE_ONLY ? '（セールのみ）' : ''}`);
-  console.log('[保存] poc/out/report.md / poc/out/report.csv');
+  console.log('[保存] out/report.md / out/report.csv');
 })();

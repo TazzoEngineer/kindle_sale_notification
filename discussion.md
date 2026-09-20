@@ -1,6 +1,9 @@
 # アーキテクチャの検討
 
-> 設計の検討と PoC の作業ログ。使い方の概要は [README.md](README.md) を参照。
+> 設計の検討と作業ログ。使い方の概要は [README.md](README.md) を参照。
+>
+> 本文中の `poc/...` というパスは、後のリファクタで `src/...` に移動している。
+> 対応は末尾の「フォルダ構成の整理」を参照。
 
 ## 1. 実行環境
 
@@ -339,3 +342,30 @@ Node.js + Puppeteer + 専用プロファイルで、
   `dc:date` に対応し、日付が読めないエントリは既定で無視するようにした。
 - 実装: `scripts/check_feed.js` / `feed.config.json` / `.github/workflows/sale-watch.yml`。
   既読管理は `.github/feed_state.json`（通知済み GUID のみ、最大 300 件）。
+
+### フォルダ構成の整理（poc → src）: ✅
+
+- PoC の名残で `poc/` に本体・共通ライブラリ・生成物が同居し、隣に `scripts/` もあって
+  ちぐはぐだったため、役割で分けた。ファイル名の `2.1_` 等の番号（この文書の章番号由来）も外した。
+
+| 変更前 | 変更後 |
+| --- | --- |
+| `poc/2.1_login.js` | `src/steps/login.js` |
+| `poc/2.3_all_samples.js` | `src/steps/samples.js` |
+| `poc/2.4_batch.js` | `src/steps/prices.js` |
+| `poc/2.4_price.js` | `src/steps/price.js` |
+| `poc/2.5_detect.js` | `src/steps/detect.js` |
+| `poc/2.6_report.js` | `src/steps/report.js` |
+| `poc/lib/*.js` | `src/lib/*.js` |
+| `scripts/check_feed.js` | `src/feed/check_feed.js` |
+| `poc/2.3_inspect.js` | `src/tools/inspect_library.js` |
+| `poc/2.4_price_inspect.js` | `src/tools/inspect_price.js` |
+| `poc/2.4_search_fallback.js` | `src/tools/search_fallback.js` |
+| `poc/2.1_evidence.js` | `src/tools/evidence.js` |
+| `poc/2.3_samples.js` | `src/tools/samples_page1.js` |
+| `poc/out/` | `out/` |
+
+- npm スクリプトも `poc:batch` → `prices` のように整理（調査用は `tool:` 接頭辞）。
+- 追随させた箇所: 各スクリプト内の `__dirname` 基準のパス（1 階層深くなった）、
+  `require` の相対パス、ログに出すパス表記、`run.sh`、`.gitignore`、
+  `.github/workflows/sale-watch.yml`、README。

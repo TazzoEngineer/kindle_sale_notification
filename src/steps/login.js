@@ -21,7 +21,7 @@ const readline = require('readline');
 const puppeteer = require('puppeteer');
 
 // プロジェクト内の専用プロファイル（.gitignore 済み。ログインセッションを保持）
-const PROFILE_DIR = path.join(__dirname, '..', '.chrome-profile');
+const PROFILE_DIR = path.join(__dirname, '..', '..', '.chrome-profile');
 
 const AMAZON_TOP = 'https://www.amazon.co.jp/';
 // ログイン必須ページ（コンテンツと端末の管理 = Library）

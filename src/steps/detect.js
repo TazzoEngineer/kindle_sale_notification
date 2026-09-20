@@ -16,7 +16,7 @@ const path = require('path');
 const fs = require('fs');
 const { execFile } = require('child_process');
 
-const OUT_DIR = path.join(__dirname, 'out');
+const OUT_DIR = path.join(__dirname, '..', '..', 'out');
 const PRICES_FILE = path.join(OUT_DIR, 'prices.json');
 const HISTORY_FILE = path.join(OUT_DIR, 'price_history.json');
 const NOTIF_FILE = path.join(OUT_DIR, 'notifications.json');
@@ -125,7 +125,7 @@ function notifyMac(title, message) {
   if (!DRY) {
     fs.writeFileSync(HISTORY_FILE, JSON.stringify(history, null, 2));
     fs.writeFileSync(NOTIF_FILE, JSON.stringify(notifications, null, 2));
-    console.log('[保存] poc/out/price_history.json / poc/out/notifications.json');
+    console.log('[保存] out/price_history.json / out/notifications.json');
   } else {
     console.log('[--dry] macOS 通知は送信せず、履歴/通知ファイルも更新していません。');
   }

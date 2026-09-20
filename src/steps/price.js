@@ -15,10 +15,10 @@
 const path = require('path');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
-const { fetchPrice } = require('./lib/amazon');
+const { fetchPrice } = require('../lib/amazon');
 
-const PROFILE_DIR = path.join(__dirname, '..', '.chrome-profile');
-const OUT_DIR = path.join(__dirname, 'out');
+const PROFILE_DIR = path.join(__dirname, '..', '..', '.chrome-profile');
+const OUT_DIR = path.join(__dirname, '..', '..', 'out');
 const ASIN = process.argv[2] || 'B0GX2XQNGK';
 const URL = `https://www.amazon.co.jp/dp/${ASIN}`;
 
@@ -64,7 +64,7 @@ const URL = `https://www.amazon.co.jp/dp/${ASIN}`;
     console.log('----------------------------------------');
     console.log('[swatch]', swatchText);
     console.log('========================================');
-    console.log(`[保存] poc/out/price_${ASIN}.json`);
+    console.log(`[保存] out/price_${ASIN}.json`);
   } finally {
     await browser.close();
   }
