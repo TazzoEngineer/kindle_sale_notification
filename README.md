@@ -1,4 +1,4 @@
-# kindle_sale_notification
+# kindle-sale-notification
 
 Kindle で **サンプルだけ落としてある「気になる本」** がセールになったら教えてくれるツール。
 
